@@ -30,6 +30,24 @@ You can see a running version of the application at
 7. Configure `database.yml` to point to your database
 8. Run Rails migrations: `rake db:migrate`
 
+### Google Maps KML Endpoint
+
+**tl;dr** Set the environment variable `GMAPS_KML_ENDPOINT` to the address of your publicly-exposed host
+
+This part is tricky. The Rails app is designed so that a client-side call to a Google Maps function loads up KML from HTTP endpoint in the app. What this means is that your running app has to be exposed to the Internet in order to load up the sidewalk KML on the map. This is fine in production, but in development (read: on your laptop, etc) you're likely behind a firewall and Google will be unable to load the KML.
+
+One solution to this problem is to use SSH Remote Forwarding.
+
+1. Have an Internet exposed Linux Server (e.g. AWS instance)
+2. Configure sshd to have "GatewayPorts yes"
+3. On development machine create a remote forward connection: ssh -nNTR *:3000:localhost:3000 your.remote.server.com
+4. Set `GMAPS_KML_ENDPOINT` to "your.remote.server.com:3000"
+    * `GMAPS_KML_ENDPOINT=your.remote.server.com:3000 rails s`
+    * `export GMAPS_KML_ENDPOINT=your.remote.server.com:3000; rails s`
+    * Use foremen and .env (http://ddollar.github.com/foreman/#ENVIRONMENT)
+
+In production, this is likely the hostname or IP of your production server.
+
 ## <a name="usage">Usage</a>
     rails server
 
