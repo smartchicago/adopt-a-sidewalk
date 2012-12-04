@@ -15,6 +15,21 @@ You can see a running version of the application at
     cd adopt-a-sidewalk
     bundle install
 
+### Setting up the database
+
+1. Install PostgreSQL with the PostGIS extensions: e.g. `brew install postgis`
+2. Download the chicagosidewalks shape file from the City of Chicago Data Portal http://data.cityofchicago.org
+3. Convert the shapefile into PostGIS SQL: `shp2pgsql -s 3435:4326 -g the_geom -I chicagosidewalks.shp chicagosidewalks.sql`
+    * `-s 3435:4326` This converts the geospatial data from the EPSG:3435 (NAD83 / Illinois East) project to ESPG:4326 (WGS84, lat/long)
+    * `-g the_geom` name the geocolumn `the_geom` to match what's in the Rails code
+    * `-I` generate a spatial index on the geocolumn.
+4. Create a database that will host your app: e.g. `createdb adoptasidewalk_dev`
+5. Add the PostGIS extensions to your database: e.g. `psql adoptasidewalk_dev -c "CREATE EXTENSION postgis;"`
+    * MAGIC
+6. Load in `chicagosidewalks.sql`: e.g. `psql adoptasidewalk_dev <chicagosidewalks.sql`
+7. Configure `database.yml` to point to your database
+8. Run Rails migrations: `rake db:migrate`
+
 ## <a name="usage">Usage</a>
     rails server
 
