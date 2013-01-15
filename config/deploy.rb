@@ -8,7 +8,7 @@ set :scm, :git
 set :deploy_via, :remote_cache
 set :deploy_to,  '/var/www/adopt-a-sidewalk'
 set :use_sudo, false
-set :user, 'ubuntu'
+set :user, 'adopt'
 
 set :rvm_type, :system
 
