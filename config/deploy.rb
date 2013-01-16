@@ -2,7 +2,8 @@ require "rvm/capistrano"      # Load RVM's capistrano plugin.
 require "bundler/capistrano"  # automagically does the bundle install on deploy
 
 set :application, "adopt-a-sidewalk"
-set :repository,  "git://github.com/cgansen/adopt-a-sidewalk.git"
+set :repository,  "git://github.com/cfachicago/adopt-a-sidewalk.git"
+set :branch,      "master"
 
 set :scm, :git
 set :deploy_via, :remote_cache
